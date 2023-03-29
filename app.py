@@ -22,7 +22,7 @@ def main():
             filter_type = st.sidebar.radio("Filters", ["Original", "Floyd-Steinberg Dithering"])
 
             if(filter_type == "Floyd-Steinberg Dithering"):
-                nc_input = st.sidebar.text_input("Number of colors")
+                nc_input = st.sidebar.text_input("New colors")
 
             if(st.button("Apply filter")):
                 if(filter_type == "Floyd-Steinberg Dithering"):
