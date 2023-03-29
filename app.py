@@ -1,8 +1,7 @@
 import streamlit as st
-import cv2
 import numpy as np
-import os
 from PIL import Image, ImageEnhance
+from ditheringAlgorithm import *
 
 def main():
     st.title("DIGIMAP FINAL PROJECT")
@@ -20,21 +19,15 @@ def main():
             st.text("Uploaded Image")
             st.image(uploaded_image)
 
-            filter_type = st.sidebar.radio("Filters", ["Original", "Gray Scale", "Contrast"])
+            filter_type = st.sidebar.radio("Filters", ["Original", "Floyd-Steinberg Dithering"])
 
-            if(filter_type == "Contrast"):
-                rate = st.sidebar.slider("Contrast", 0.5, 6.0)
+            if(filter_type == "Floyd-Steinberg Dithering"):
+                nc_input = st.sidebar.text_input("Number of colors")
 
             if(st.button("Apply filter")):
-                if(filter_type == "Gray Scale"):
-                    img = np.array(uploaded_image.convert("RGB"))
-                    gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-                    st.image(gray)
-
-                elif(filter_type == "Contrast"):
-                    enhancer = ImageEnhance.Contrast(uploaded_image)
-                    enhanced_img = enhancer.enhance(rate)
-                    st.image(enhanced_img)
+                if(filter_type == "Floyd-Steinberg Dithering"):
+                    img = dithering_algorithm(uploaded_image, int(nc_input))
+                    st.image(img)
                     
 if __name__ == "__main__":
     main()
