@@ -1,6 +1,5 @@
 import streamlit as st
-import numpy as np
-from PIL import Image, ImageEnhance
+from PIL import Image
 from ditheringAlgorithm import *
 
 def main():
@@ -26,6 +25,9 @@ def main():
 
             if(st.button("Apply filter")):
                 if(filter_type == "Floyd-Steinberg Dithering"):
+                    if(nc_input == ""):
+                        nc_input = "2"
+
                     img = dithering_algorithm(uploaded_image, int(nc_input))
                     st.image(img)
                     
