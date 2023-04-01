@@ -1,6 +1,7 @@
 import numpy as np
 from PIL import Image
 
+#code gotten from "https://scipython.com/blog/floyd-steinberg-dithering/"
 def dithering_algorithm(img: Image, nc: int):
 
     width, height = img.size

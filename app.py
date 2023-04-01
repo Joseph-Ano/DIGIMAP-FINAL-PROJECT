@@ -1,35 +1,42 @@
 import streamlit as st
 from PIL import Image
 from ditheringAlgorithm import *
+from io import BytesIO
 
 def main():
     st.title("DIGIMAP FINAL PROJECT")
-    st.text("Image editing web application")
+    st.subheader("Floyd-Steinberg Dithering filter")
 
-    actvities = ["About", "Filter"]
-    choice = st.sidebar.selectbox("Select an activity", actvities)
+    image_file = st.file_uploader("Upload an image", ["jpeg", "jpg", "png"])
+    sidebar = st.sidebar
+    sidebar.header("S11 Group 1")
+    sidebar.markdown('''**Members:**\n- Joseph Ano\n- Solomon Castillo\n- Jared Limjoco\n- Ramon Mapua''')
 
-    if(choice == "Filter"):
-        st.subheader("Filter")
-        image_file = st.file_uploader("Upload an image", ["jpeg", "jpg", "png"])
+    nc_input = sidebar.text_input("New colors")
 
-        if(image_file):
-            uploaded_image = Image.open(image_file)
-            st.text("Uploaded Image")
-            st.image(uploaded_image)
+    if(image_file):
+        uploaded_image = Image.open(image_file)
+        st.text("Uploaded Image")
+        st.image(uploaded_image)
 
-            filter_type = st.sidebar.radio("Filters", ["Original", "Floyd-Steinberg Dithering"])
+    filterBtn = st.button("Apply filter", key="filterBtn")
+            
+    if(filterBtn and not image_file):
+        st.warning("Upload an image first")
 
-            if(filter_type == "Floyd-Steinberg Dithering"):
-                nc_input = st.sidebar.text_input("New colors")
+    elif(filterBtn and image_file):
+        try:
+            int(nc_input)
+        except:
+            nc_input = 2
 
-            if(st.button("Apply filter")):
-                if(filter_type == "Floyd-Steinberg Dithering"):
-                    if(nc_input == ""):
-                        nc_input = "2"
+        img = dithering_algorithm(uploaded_image, nc_input)
+        st.image(img)
 
-                    img = dithering_algorithm(uploaded_image, int(nc_input))
-                    st.image(img)
-                    
+        buf = BytesIO()
+        img.save(buf, format="JPEG")
+        byte_im = buf.getvalue()
+        downloadBtn = st.download_button(label="Download Image", data=byte_im, file_name="ditheredImg.png", mime="image/jpeg")
+        
 if __name__ == "__main__":
     main()
