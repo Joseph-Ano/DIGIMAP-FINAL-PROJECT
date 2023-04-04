@@ -4,6 +4,7 @@ from ditheringAlgorithm import *
 from io import BytesIO
 
 def main():
+    errorExists = False
     st.title("DIGIMAP FINAL PROJECT")
     st.subheader("Floyd-Steinberg Dithering filter")
 
@@ -26,17 +27,24 @@ def main():
 
     elif(filterBtn and image_file):
         try:
-            int(nc_input)
+            nc_input = int(nc_input)
         except:
-            nc_input = 2
-
-        img = dithering_algorithm(uploaded_image, nc_input)
-        st.image(img)
-
-        buf = BytesIO()
-        img.save(buf, format="JPEG")
-        byte_im = buf.getvalue()
-        downloadBtn = st.download_button(label="Download Image", data=byte_im, file_name="ditheredImg.png", mime="image/jpeg")
+            st.warning("Input must be a positive number")
+            errorExists = True
         
+        if(errorExists == False and nc_input < 0 ):
+            st.warning("Input must be a positive number")
+            errorExists = True
+
+        if(errorExists == False):
+            img = dithering_algorithm(uploaded_image, nc_input)
+            st.image(img)
+
+            buf = BytesIO()
+            img.save(buf, format="JPEG")
+            byte_im = buf.getvalue()
+            
+            downloadBtn = st.download_button(label="Download Image", data=byte_im, file_name="ditheredImg.png", mime="image/jpeg")
+
 if __name__ == "__main__":
     main()
