@@ -1,4 +1,5 @@
 import streamlit as st
+import math
 from PIL import Image
 from ditheringAlgorithm import *
 from io import BytesIO
@@ -13,7 +14,7 @@ def main():
     sidebar.header("S11 Group 1")
     sidebar.markdown('''**Members:**\n- Joseph Ano\n- Solomon Castillo\n- Jared Limjoco\n- Ramon Mapua''')
 
-    nc_input = sidebar.text_input("New colors")
+    nc_input = sidebar.text_input('''Enter number of colors for palette restriction\n(Example: Input of 8 = 2 bits per RGB channel)''')
 
     if(image_file):
         uploaded_image = Image.open(image_file)
@@ -32,11 +33,13 @@ def main():
             st.warning("Input must be a positive number")
             errorExists = True
         
-        if(errorExists == False and nc_input < 0 ):
+        if(errorExists == False and nc_input < 1 ):
             st.warning("Input must be a positive number")
             errorExists = True
 
         if(errorExists == False):
+            nc_input = math.floor(nc_input**(1/3))
+
             img = dithering_algorithm(uploaded_image, nc_input)
             st.image(img)
 
