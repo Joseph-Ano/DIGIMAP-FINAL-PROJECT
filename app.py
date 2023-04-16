@@ -14,7 +14,7 @@ def main():
     sidebar.header("S11 Group 1")
     sidebar.markdown('''**Members:**\n- Joseph Ano\n- Solomon Castillo\n- Jared Limjoco\n- Ramon Mapua''')
 
-    nc_input = sidebar.text_input('''Enter number of colors for palette restriction\n(Example: Input of 8 = 2 bits per RGB channel)''')
+    nc_input = sidebar.text_input('''Number of colors for new pallete''')
 
     if(image_file):
         uploaded_image = Image.open(image_file)
