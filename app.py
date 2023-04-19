@@ -38,6 +38,9 @@ def main():
             errorExists = True
 
         if(errorExists == False):
+            if(nc_input < 8):
+                nc_input = 8
+                
             nc_input = math.floor(nc_input**(1/3))
 
             img = dithering_algorithm(uploaded_image, nc_input)
